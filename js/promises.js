@@ -24,8 +24,8 @@ function downloadSong(songName){
     })
 }
 
-let mySong = downloadSong('Stairway to Heaven');
-console.log(mySong);
+// let mySong = downloadSong('Stairway to Heaven');
+// console.log(mySong);
 
 // mySong
 //     .then((val) => val.toUpperCase())
@@ -60,13 +60,13 @@ function getUserOrder(user){
     console.log(`Getting the orders for ${user.username}`)
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            let orders = [
+            let o = [
                 {prodName: 'Computer', price: 1000},
                 {prodName: 'Picture Frame', price: 12},
                 {prodName: 'Notebook', price: 5}
             ]
-            if (user.userId > 500){
-                resolve(orders)
+            if (user.id > 500){
+                resolve(o)
             } else {
                 reject('No orders sorry pal')
             }
@@ -94,18 +94,28 @@ function getUsersTotalFromUserId(userId){
         .catch(err => console.warn(err))
 }
 
-// What it would look like in python
+
+// Async / Await - allows us to write our code to look more synchronous *It is simply syntactical sugar for Promises*
+
 /*
-    def get_user_total_from_id(user_id):
-        user = get_user(user_id)
-        order = get_user_order(user)
-        total = get_order_total(order)
-        print(f"Your total is {total}")
+Python
+
+def get_users_total_from_id(user_id):
+    user = get_user(user_id)
+    order = get_user_order(user)
+    total = get_order_total(order)
+    print(f"User {user_id} has a total of {total}")
 */
 
 async function getUserTotal(userId){
     let user = await getUser(userId);
     let order = await getUserOrder(user);
     let total = await getOrderTotal(order);
-    console.log(`Your total is $${total}`)
+    console.log(`User #${userId} has a total of $${total}`)
+};
+
+
+let arrow = async (id) => {
+    let user = await getUser(id)
+    return user
 }
